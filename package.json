@@ -1,0 +1,23 @@
+{
+  "name": "nodejs-mongodb",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mssdesign/NodeJS-MongoDB.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mssdesign/NodeJS-MongoDB/issues"
+  },
+  "homepage": "https://github.com/mssdesign/NodeJS-MongoDB#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.19"
+  }
+}
