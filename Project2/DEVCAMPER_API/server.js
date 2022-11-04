@@ -1,12 +1,17 @@
 const express = require('express')
 const dotenv = require('dotenv')
 const morgan = require('morgan')
+const connectDB = require('./config/db')
+
+//Carregando variáveis
+dotenv.config({ path: './config/config.env' })
+
+//connect to database
+connectDB();
 
 //Route files
 const bootcamps = require('./routes/bootcamps')
 
-//Carregando variáveis
-dotenv.config({ path: './config/config.env' })
 
 //iniciando variável app
 const app = express()
@@ -32,7 +37,15 @@ app.use('/api/v1/bootcamps', bootcamps)
 //escutando porta do env e se não tiver disponível escutar na 5000 msm
 const PORT = process.env.PORT || 5000
 
-app.listen(
+const server = app.listen(
   PORT,
   console.log(`Servidor rodando em ${process.env.NODE_ENV} na porta ${PORT}`)
 )
+
+//Handle unhandled promise rejections (tornando erro de login mais compreensível)
+process.on('unhandledRejection', (err, promise) => {
+  console.log(`Error: ${err.message}`)
+
+  //Close server e exit process
+  server.close(() => process.exit(1));
+})
