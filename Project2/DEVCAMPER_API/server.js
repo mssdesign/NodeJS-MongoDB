@@ -1,6 +1,7 @@
 const express = require('express')
 const dotenv = require('dotenv')
 const morgan = require('morgan')
+const colors = require('colors')
 const connectDB = require('./config/db')
 
 //Carregando variáveis
@@ -39,12 +40,12 @@ const PORT = process.env.PORT || 5000
 
 const server = app.listen(
   PORT,
-  console.log(`Servidor rodando em ${process.env.NODE_ENV} na porta ${PORT}`)
+  console.log(`Servidor rodando em ${process.env.NODE_ENV} na porta ${PORT}`.yellow.bold)
 )
 
 //Handle unhandled promise rejections (tornando erro de login mais compreensível)
 process.on('unhandledRejection', (err, promise) => {
-  console.log(`Error: ${err.message}`)
+  console.log(`Error: ${err.message}`.red)
 
   //Close server e exit process
   server.close(() => process.exit(1));
