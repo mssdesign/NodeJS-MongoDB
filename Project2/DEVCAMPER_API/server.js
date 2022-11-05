@@ -3,6 +3,7 @@ const dotenv = require('dotenv')
 const morgan = require('morgan')
 const colors = require('colors')
 const connectDB = require('./config/db')
+const errorHandler = require('./middleware/error')
 
 //Carregando variáveis
 dotenv.config({ path: './config/config.env' })
@@ -37,6 +38,9 @@ app.use(logger)
 
 //Montar rotas
 app.use('/api/v1/bootcamps', bootcamps)
+
+//Middleware handler de erro
+app.use(errorHandler)
 
 //escutando porta do env e se não tiver disponível escutar na 5000 msm
 const PORT = process.env.PORT || 5000
