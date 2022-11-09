@@ -6,6 +6,9 @@ const dotenv = require('dotenv')
 // Load env vars
 dotenv.config({path: './config/config.env'})
 
+//Connect to DB
+mongoose.connect(process.env.MONGO_URI)
+
 //load models
 const Bootcamp = require('./models/Bootcamp')
 
@@ -28,10 +31,18 @@ const importData = async () => {
 const deleteData = async () => {
     try {
         await Bootcamp.deleteMany()
+        //DeleteMany sem parâmetros deleta duto do db
 
         console.log('Data Destroyed...'.red.inverse)
         process.exit()
     } catch (err) {
         console.error(err)
     }
+}
+
+//process.argv[2] -> é o "-i" em "node seeder -i", "seeder" é o nome do arquivo no projeto 
+if (process.argv[2] === '-i') {
+    importData()
+} else if (process.argv[2] === '-d') {
+    deleteData()
 }
