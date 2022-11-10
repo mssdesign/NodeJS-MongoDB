@@ -9,14 +9,33 @@ const asyncHandler = require('../middleware/async')
 exports.getBootcamps = asyncHandler(async (req, res, next) => {
   let query
 
-  let queryStr = JSON.stringify(req.query)
+  //Copy req.query
+  const reqQuery = { ...req.query }
 
+  //fields to exclude (removendo palavras para não serem utilizadas no filtro diretamente)
+  const removeFields = ['select']
+
+  //loop over removeFields and delete from reqQuery
+  removeFields.forEach(param => delete reqQuery[param])
+
+  //Create query string
+  let queryStr = JSON.stringify(reqQuery)
+
+  //Create operators ($gt, $gte, etc)
   //Aqui os parâmetros de uma requisição no postman: {{URL}}/api/v1/bootcamps?averageCost[lte]=10000 foram transformados em uma query {"averageCost":{"$lte":"10000"}} com o sinal de dolar
   queryStr = queryStr.replace(/\b(gt|gte|lt|lte|in)\b/g, match => `$${match}`)
-  console.log(queryStr)
 
+  //finding resource
   query = Bootcamp.find(JSON.parse(queryStr))
 
+  //Select fields (requisição: {{URL}}/api/v1/bootcamps?select=name,description)
+  if (req.query.select) {
+    //fazendo com que a requisição fique com um espaço entre name e description conforme o select do mongoose que contem espaço https://mongoosejs.com/docs/queries.html
+    const fields = req.query.select.split(',').join(' ')
+    query = query.select(fields)
+  }
+
+  //Executing query
   const bootcamps = await query
 
   res
