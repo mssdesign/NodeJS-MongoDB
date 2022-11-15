@@ -13,6 +13,7 @@ connectDB();
 
 //Route files
 const bootcamps = require('./routes/bootcamps')
+const courses = require('./routes/courses')
 
 
 //iniciando variável app
@@ -38,6 +39,7 @@ app.use(logger)
 
 //Montar rotas
 app.use('/api/v1/bootcamps', bootcamps)
+app.use('/api/v1/courses', courses)
 
 //Middleware handler de erro
 app.use(errorHandler)
