@@ -1,5 +1,6 @@
 const express = require('express')
 const dotenv = require('dotenv')
+const path = require('path')
 const morgan = require('morgan')
 const colors = require('colors')
 const fileupload = require('express-fileupload')
@@ -40,6 +41,9 @@ app.use(logger)
 
 //File upload
 app.use(fileupload())
+
+//Set static folder (permite acessar por domínio/imageName)
+app.use(express.static(path.join(__dirname, 'public')))
 
 //Montar rotas
 app.use('/api/v1/bootcamps', bootcamps)
