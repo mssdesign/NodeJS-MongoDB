@@ -59,6 +59,10 @@ const sendTokenResponse = (user, statusCode, res) => {
     httpOnly: true,
   }
 
+  if (process.env.NODE_ENV === 'production') {
+    options.secure = true //cookie com https
+  }
+
   res
     .status(statusCode)
     .cookie('token', token, options)
