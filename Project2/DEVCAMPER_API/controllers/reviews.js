@@ -7,7 +7,7 @@ const asyncHandler = require('../middleware/async')
 // @route   GET /api/v1/reviews
 // @route   GET /api/v1/bootcamps/:bootcampId/reviews
 // @acess    Public
-exports.getCourses = asyncHandler(async (req, res, next) => {
+exports.getReviews = asyncHandler(async (req, res, next) => {
     if (req.params.bootcampId) {
       const reviews = await Review.find({ bootcamp: req.params.bootcampId })
   
