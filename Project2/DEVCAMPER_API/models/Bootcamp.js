@@ -35,7 +35,7 @@ const BootcampSchema = new mongoose.Schema({
   slug: String,
   address: {
     type: String,
-    required: [true, 'Please add an adress']
+    required: [true, 'Please add an address']
   },
   location: {
     type: {
