@@ -61,7 +61,7 @@ exports.resetPassword = asyncHandler(async (req, res, next) => {
 
   const user = await User.findOne({
     resetPasswordToken,
-    resetPasswordExpire: { $gt: Date.now() }
+    resetPasswordExpire: { $gt: Date.now() },
   })
 
   if (!user) {
@@ -99,6 +99,21 @@ const sendTokenResponse = (user, statusCode, res) => {
     .json({ success: true, token })
 }
 
+// @desc logged user out / clear cookie
+// @route   GET /api/v1/logout
+// @acess    Public
+exports.logout = asyncHandler(async (req, res, next) => {
+  res.cookie('token', 'none', {
+    expires: new Date(Date.now() + 10 * 1000),
+    httpOnly: true,
+  });
+
+  res.status(200).json({
+    success: true,
+    data: {},
+  })
+})
+
 // @desc Get current logged in user
 // @route   POST /api/v1/auth/me
 // @acess    Private
@@ -117,12 +132,12 @@ exports.getMe = asyncHandler(async (req, res, next) => {
 exports.updateDetails = asyncHandler(async (req, res, next) => {
   const fieldsToUpdate = {
     name: req.body.name,
-    email: req.body.email
+    email: req.body.email,
   }
 
   const user = await User.findByIdAndUpdate(req.user.id, fieldsToUpdate, {
     new: true,
-    runValidators: true
+    runValidators: true,
   })
 
   res.status(200).json({
