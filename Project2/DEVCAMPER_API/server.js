@@ -5,6 +5,7 @@ const morgan = require('morgan')
 const colors = require('colors')
 const fileupload = require('express-fileupload')
 const cookieParser = require('cookie-parser')
+const mongoSanitize = require('express-mongo-sanitize');
 const connectDB = require('./config/db')
 const errorHandler = require('./middleware/error')
 
@@ -21,12 +22,14 @@ const auth = require('./routes/auth')
 const users = require('./routes/users')
 const reviews = require('./routes/reviews')
 
-
 //iniciando variável app
 const app = express()
 
 //Body parser (permite o node reconhecer o json vindo da requisição)
 app.use(express.json())
+
+//sanitize data (contra noSQL injection)
+app.use(mongoSanitize())
 
 //Cookie parser 
 app.use(cookieParser())
